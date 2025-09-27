@@ -79,7 +79,9 @@ const DoctorViewPatientScreen = () => {
         {/* Button */}
         <div className="mt-8">
           <button
-            onClick={() => navigate(`/doctor/patient/${username}/diagnosis`)}
+            onClick={() => navigate(`/doctor/patient/${username}/diagnosis`, {
+              state: { patientName: `${profile.first_name} ${profile.last_name}` }
+            })}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition font-semibold flex items-center justify-center gap-2"
           >
             <Stethoscope className="w-5 h-5" />

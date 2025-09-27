@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../../api/axiosInstance";
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import { ArrowLeft, PlusCircle } from "lucide-react";
 
 const DiagnosisDetailScreen = () => {
   const { diagnosisId, username } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,25 +48,24 @@ const DiagnosisDetailScreen = () => {
           <ArrowLeft className="w-5 h-5" /> Back
         </button>
 
-        {diagnosis.doctor?.toLowerCase() === user?.username?.toLowerCase() && (
-  <div className="flex gap-3">
-    <button
-      onClick={() => navigate(`/doctor/add-visit/${diagnosis.id}`)}
-      className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
-    >
-      <PlusCircle className="w-5 h-5" />
-      Add Visit
-    </button>
 
-    <button
-      onClick={() => navigate(`/doctor/patient/${username}/diagnosis/${diagnosis.id}/schedule`)}
-      className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
-    >
-      <PlusCircle className="w-5 h-5" />
-      Schedule Visit
-    </button>
-  </div>
-)}
+        <div className="flex gap-3">
+          <button
+            onClick={() => navigate(`/doctor/add-visit/${diagnosis.id}`)}
+            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          >
+            <PlusCircle className="w-5 h-5" />
+            Add Visit
+          </button>
+
+          <button
+            onClick={() => navigate(`/doctor/patient/${username}/diagnosis/${diagnosis.id}/schedule`)}
+            className="flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition"
+          >
+            <PlusCircle className="w-5 h-5" />
+            Schedule Visit
+          </button>
+        </div>
 
       </div>
 
@@ -78,6 +77,10 @@ const DiagnosisDetailScreen = () => {
         <p className="text-gray-700 mb-2">
           <span className="font-semibold">Description:</span>{" "}
           {diagnosis.description || "N/A"}
+        </p>
+        <p className="text-gray-700 mb-2">
+          <span className="font-semibold">Created By:</span>{" "}
+          {diagnosis.doctor || "N/A"}
         </p>
         <p className="text-sm text-gray-500">
           <span className="font-medium">Created:</span>{" "}
@@ -119,7 +122,7 @@ const DiagnosisDetailScreen = () => {
                     <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
                       {visit.medications.map((med, idx) => (
                         <li key={idx}>
-                          <strong>{med.name}</strong> – {med.dosage}, {med.frequency}
+                          <strong>{med.name}</strong> – {med.noOfDays}, {med.dosageDuration}
                         </li>
                       ))}
                     </ul>

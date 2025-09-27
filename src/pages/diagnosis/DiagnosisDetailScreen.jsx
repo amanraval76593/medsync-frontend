@@ -188,7 +188,7 @@ const DiagnosisDetailScreen = () => {
     const printWindow = window.open('', '_blank');
     printWindow.document.write(content);
     printWindow.document.close();
-    
+
     printWindow.onload = () => {
       printWindow.print();
       // Note: The window will close automatically after printing in most browsers
@@ -212,6 +212,9 @@ const DiagnosisDetailScreen = () => {
           </p>
           <p className="text-sm text-gray-600">
             <strong>Created:</strong> {new Date(diagnosis.created_at).toLocaleString()}
+          </p>
+          <p className="text-sm text-gray-600">
+            <strong>Doctor Name:</strong> {(diagnosis.doctor_name).toLocaleString()}
           </p>
         </div>
 

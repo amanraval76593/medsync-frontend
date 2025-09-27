@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axiosInstance";
 import { ClipboardList, PlusCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
@@ -7,8 +7,9 @@ import { useAuth } from "../../context/AuthContext";
 const DiagnosisListForDoctor = () => {
   const { username } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
-
+  // const { user } = useAuth();
+  const location = useLocation();
+  const { patientName } = location.state || {};
   const [diagnoses, setDiagnoses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,7 +37,7 @@ const DiagnosisListForDoctor = () => {
       <div className="mb-8 flex items-center justify-between">
         <h2 className="text-3xl font-bold text-blue-800 flex items-center gap-2">
           <ClipboardList className="w-7 h-7 text-blue-700" />
-          Diagnosis for {username}
+          Diagnosis for {patientName}
         </h2>
         <button
           onClick={() => navigate(`/doctor/patient/${username}/add-diagnosis`)}
@@ -53,7 +54,7 @@ const DiagnosisListForDoctor = () => {
         diagnoses.map((diagnosis) => (
           <div
             key={diagnosis.id}
-            onClick={() =>  navigate(`/doctor/patient/${username}/diagnosis/${diagnosis.id}`)}
+            onClick={() => navigate(`/doctor/patient/${username}/diagnosis/${diagnosis.id}`)}
             className="cursor-pointer border border-gray-200 rounded-lg bg-white p-6 mb-6 shadow hover:shadow-md transition hover:bg-gray-50"
           >
             <h3 className="text-xl font-semibold text-blue-700 mb-2">
