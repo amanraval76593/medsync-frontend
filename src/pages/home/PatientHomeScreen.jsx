@@ -95,28 +95,30 @@ const PatientHomeScreen = () => {
 
         {/* Last Diagnosis */}
         {lastDiagnosis && (
-      <div
-        onClick={() => navigate(`/diagnosis/${lastDiagnosis.id}`)}
-        className="bg-white rounded-lg shadow p-5 cursor-pointer hover:shadow-lg transition"
-      >
-        <h3 className="text-lg font-semibold text-gray-700 mb-3">Last Diagnosis</h3>
-        <div className="text-gray-800 text-sm space-y-1">
-          <p>
-            <strong>Title:</strong> {lastDiagnosis.title}
-          </p>
-          <p>
-            <strong>Hospital:</strong> {lastDiagnosis.hospital}
-          </p>
-          <p>
-            <strong>Date:</strong>{" "}
-            {new Date(lastDiagnosis.created_at).toLocaleString()}
-          </p>
-          <p>
-            <strong>Description:</strong> {lastDiagnosis.description || "N/A"}
-          </p>
-        </div>
-      </div>
-    )}
+          <div
+            onClick={() => navigate(`/diagnosis/${lastDiagnosis.id}`, {
+              state: { patientName: `${user.first_name} ${user.last_name}` }
+            })}
+            className="bg-white rounded-lg shadow p-5 cursor-pointer hover:shadow-lg transition"
+          >
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Last Diagnosis</h3>
+            <div className="text-gray-800 text-sm space-y-1">
+              <p>
+                <strong>Title:</strong> {lastDiagnosis.title}
+              </p>
+              <p>
+                <strong>Hospital:</strong> {lastDiagnosis.hospital}
+              </p>
+              <p>
+                <strong>Date:</strong>{" "}
+                {new Date(lastDiagnosis.created_at).toLocaleString()}
+              </p>
+              <p>
+                <strong>Description:</strong> {lastDiagnosis.description || "N/A"}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Upcoming Visits */}
         <div className="bg-white rounded-lg shadow p-5">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { fetchDiagnosisDetail } from "../../api/diagnosis";
 import { useAuth } from "../../context/AuthContext";
 import { CalendarDays, ClipboardList, Pill, User, Download } from "lucide-react";
@@ -7,7 +7,8 @@ import { CalendarDays, ClipboardList, Pill, User, Download } from "lucide-react"
 const DiagnosisDetailScreen = () => {
   const { id } = useParams();
   const { authTokens } = useAuth();
-
+  const location = useLocation();
+  const { patientName } = location.state || {};
   const [diagnosis, setDiagnosis] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedVisit, setSelectedVisit] = useState(null);
@@ -132,7 +133,10 @@ const DiagnosisDetailScreen = () => {
             <div class="hospital-name">${diagnosis?.hospital || 'Medical Center'}</div>
             <div class="prescription-title">Medication Prescription</div>
           </div>
-          
+          <div class="patient-info">
+            <div class="info-row">
+              <span class="label">Patient Name :</span> ${patientName || 'N/A'}
+            </div>
           <div class="patient-info">
             <div class="info-row">
               <span class="label">Diagnosis:</span> ${diagnosis?.title || 'N/A'}
@@ -154,8 +158,8 @@ const DiagnosisDetailScreen = () => {
               <div class="medication-item">
                 <div class="med-name">${idx + 1}. ${med.name}</div>
                 <div class="med-details">
-                  <strong>Dosage:</strong> ${med.dosage}<br>
-                  <strong>Frequency:</strong> ${med.frequency}
+                  <strong>Number of Days:</strong> ${med.noOfDays}<br>
+                  <strong>Dosage Frequency:</strong> ${med.dosageDuration}
                 </div>
               </div>
             `).join('')}
@@ -304,7 +308,7 @@ const DiagnosisDetailScreen = () => {
                   {selectedVisit.medications.map((med, idx) => (
                     <li key={idx}>
                       <span className="font-medium text-gray-800">{med.name}</span> –{" "}
-                      {med.dosage}, {med.frequency}
+                      Number of Day - {med.noOfDays},Dosage Frequency -  {med.dosageDuration}
                     </li>
                   ))}
                 </ul>
