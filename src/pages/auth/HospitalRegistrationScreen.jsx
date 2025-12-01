@@ -25,20 +25,20 @@ const HospitalRegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/api/register/hospital/", formData, {
+      await axios.post("http://localhost:9000/api/register/hospital/", formData, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       alert("Hospital registered successfully!");
-      const loginResponse = await axios.post("http://localhost:8000/api/login", {
+      const loginResponse = await axios.post("http://localhost:9000/api/login", {
         email: formData.email,
         password: formData.password,
       });
       const token = loginResponse.data.token;
-  
+
       localStorage.setItem("token", token);
-      navigate("/home/hospital");
+      navigate("/home/hospital", { replace: true });
     } catch (err) {
       alert("Registration failed");
       console.error(err.response?.data || err.message);
@@ -118,7 +118,7 @@ const HospitalRegisterScreen = () => {
         <div className="text-center text-sm text-gray-600 mt-4">
           Already registered?{" "}
           <span
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/login", { replace: true })}
             className="text-indigo-600 cursor-pointer hover:underline"
           >
             Login here

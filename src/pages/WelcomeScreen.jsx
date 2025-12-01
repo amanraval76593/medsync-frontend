@@ -21,21 +21,21 @@ const WelcomeScreen = () => {
 
         <div className="w-full space-y-4">
           <button
-            onClick={() => navigate("/register/patient")}
+            onClick={() => navigate("/register/patient", { replace: true })}
             className="w-full bg-sky-500 text-white py-3 rounded-lg shadow hover:bg-sky-600 transition flex items-center justify-center gap-2"
           >
             <UserPlus className="h-5 w-5" />
             Register as Patient
           </button>
           <button
-            onClick={() => navigate("/register/doctor")}
+            onClick={() => navigate("/register/doctor", { replace: true })}
             className="w-full bg-emerald-500 text-white py-3 rounded-lg shadow hover:bg-emerald-600 transition flex items-center justify-center gap-2"
           >
             <HeartPulse className="h-5 w-5" />
             Register as Doctor
           </button>
           <button
-            onClick={() => navigate("/register/hospital")}
+            onClick={() => navigate("/register/hospital", { replace: true })}
             className="w-full bg-indigo-500 text-white py-3 rounded-lg shadow hover:bg-indigo-600 transition flex items-center justify-center gap-2"
           >
             <Hospital className="h-5 w-5" />
@@ -46,7 +46,7 @@ const WelcomeScreen = () => {
         <div className="text-center mt-6 text-gray-600">
           Already have an account?{" "}
           <button
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/login", { replace: true })}
             className="text-blue-700 underline hover:text-blue-900"
           >
             Login

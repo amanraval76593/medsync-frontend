@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "../../api/axiosInstance";
 import { ClipboardList, PlusCircle } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
 
 const DiagnosisListForDoctor = () => {
   const { username } = useParams();

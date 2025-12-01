@@ -25,25 +25,25 @@ const PatientRegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/api/register/patient/", {
+      await axios.post("http://localhost:9000/api/register/patient/", {
         ...formData,
         role: "PATIENT",
       });
-  
+
       const loginResponse = await login({
         username: formData.username,
         password: formData.password,
       });
-  
-      loginUser(loginResponse.data); 
+
+      loginUser(loginResponse.data);
       // Redirect to complete profile screen
-      navigate("/patient/profile/complete");
+      navigate("/patient/profile/complete", { replace: true });
     } catch (err) {
       alert("Registration failed");
       console.error(err.response?.data || err.message);
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-white px-4">
@@ -110,7 +110,7 @@ const PatientRegisterScreen = () => {
         <div className="text-center text-sm text-gray-600 mt-4">
           Already registered?{" "}
           <span
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/login", { replace: true })}
             className="text-blue-600 cursor-pointer hover:underline"
           >
             Login here

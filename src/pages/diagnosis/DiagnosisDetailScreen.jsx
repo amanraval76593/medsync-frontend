@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { fetchDiagnosisDetail } from "../../api/diagnosis";
 import { useAuth } from "../../context/AuthContext";
-import { CalendarDays, ClipboardList, Pill, User, Download } from "lucide-react";
+import { CalendarDays, ClipboardList, Pill, User, Download, Upload } from "lucide-react";
 
 const DiagnosisDetailScreen = () => {
   const { id } = useParams();
@@ -287,6 +287,7 @@ const DiagnosisDetailScreen = () => {
               </div>
             </div>
 
+            {/* Medications Section */}
             <div>
               <div className="flex items-center justify-between">
                 <h3 className="text-md font-semibold text-pink-600 flex items-center gap-1 mt-4">
@@ -308,7 +309,7 @@ const DiagnosisDetailScreen = () => {
                   {selectedVisit.medications.map((med, idx) => (
                     <li key={idx}>
                       <span className="font-medium text-gray-800">{med.name}</span> –{" "}
-                      Number of Day - {med.noOfDays},Dosage Frequency -  {med.dosageDuration}
+                      Number of Day - {med.noOfDays}, Dosage Frequency - {med.dosageDuration}
                     </li>
                   ))}
                 </ul>
@@ -316,9 +317,43 @@ const DiagnosisDetailScreen = () => {
                 <p className="text-sm text-gray-500 mt-1">No medications prescribed.</p>
               )}
             </div>
+
+            {/* Documents Section */}
+            <div>
+              <h3 className="text-md font-semibold text-indigo-600 flex items-center gap-1 mt-6 mb-2">
+                <Upload className="w-4 h-4" />
+                Uploaded Documents
+              </h3>
+
+              {selectedVisit.documents && selectedVisit.documents.length > 0 ? (
+                <ul className="space-y-2 text-sm">
+                  {selectedVisit.documents.map((doc, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-center justify-between bg-gray-50 border p-2 rounded-lg"
+                    >
+                      <span className="font-medium text-gray-700">
+                        {doc.document_type || "Unnamed Document"}
+                      </span>
+                      <a
+                        href={doc.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline text-sm"
+                      >
+                        View / Download
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-gray-500 mt-1">No documents uploaded.</p>
+              )}
+            </div>
           </div>
         </div>
       )}
+
     </div>
   );
 };

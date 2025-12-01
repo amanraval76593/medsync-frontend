@@ -18,7 +18,7 @@ const LoginScreen = () => {
       const response = await login(formData);
       loginUser(response.data);
 
-      const res = await fetch("http://localhost:8000/api/user/me/", {
+      const res = await fetch("http://localhost:9000/api/user/me/", {
         headers: {
           Authorization: `Bearer ${response.data.access}`,
         },
@@ -28,17 +28,17 @@ const LoginScreen = () => {
       const userData = await res.json();
 
       if (userData.role === "PATIENT") {
-        navigate("/home/patient");
+        navigate("/home/patient", { replace: true });
       } else if (userData.role === "DOCTOR") {
         navigate("/home/doctor");
       } else if (userData.role === "HOSPITAL") {
-        navigate("/home/hospital");
+        navigate("/home/hospital", { replace: true });
       } else {
         alert("Unknown role!");
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("Invalid username or password.");
+      alert("Invalid username or password.", { replace: true });
     }
   };
 

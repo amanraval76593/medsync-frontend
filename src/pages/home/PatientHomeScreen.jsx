@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../../api/axiosInstance";
 import { useNavigate } from "react-router-dom";
-import { UserCircle, Stethoscope, CalendarCheck2 } from "lucide-react";
+import { UserCircle, Stethoscope, CalendarCheck2, LogOut } from "lucide-react";
 import { fetchDiagnoses } from "../../api/diagnosis";
 import { useAuth } from "../../context/AuthContext";
 
@@ -9,7 +9,7 @@ const PatientHomeScreen = () => {
   const [user, setUser] = useState(null);
   const [lastDiagnosis, setLastDiagnosis] = useState(null);
   const [scheduledVisits, setScheduledVisits] = useState([]);
-  const { authTokens } = useAuth();
+  const { authTokens, logoutUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,17 +50,33 @@ const PatientHomeScreen = () => {
     loadScheduledVisits();
   }, [authTokens]);
 
+  const handleLogout = () => {
+    logoutUser(); // clears tokens + user
+    navigate("/login", { replace: true }); // redirects and prevents going back
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex justify-center px-4 py-10">
       <div className="w-full max-w-3xl space-y-6">
-        {/* Header */}
-        <div className="mb-2">
-          <h1 className="text-3xl font-bold text-green-800">
-            {user ? `Welcome, ${user.first_name || user.username}` : "Loading..."}
-          </h1>
-          <p className="text-gray-600 mt-1">
-            View your medical records and manage your health details.
-          </p>
+
+        {/* Header with Logout button */}
+        <div className="flex justify-between items-center mb-2">
+          <div>
+            <h1 className="text-3xl font-bold text-green-800">
+              {user ? `Welcome, ${user.first_name || user.username}` : "Loading..."}
+            </h1>
+            <p className="text-gray-600 mt-1">
+              View your medical records and manage your health details.
+            </p>
+          </div>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition shadow"
+          >
+            <LogOut className="h-5 w-5" />
+            Logout
+          </button>
         </div>
 
         {/* Action Buttons */}
@@ -96,26 +112,19 @@ const PatientHomeScreen = () => {
         {/* Last Diagnosis */}
         {lastDiagnosis && (
           <div
-            onClick={() => navigate(`/diagnosis/${lastDiagnosis.id}`, {
-              state: { patientName: `${user.first_name} ${user.last_name}` }
-            })}
+            onClick={() =>
+              navigate(`/diagnosis/${lastDiagnosis.id}`, {
+                state: { patientName: `${user.first_name} ${user.last_name}` },
+              })
+            }
             className="bg-white rounded-lg shadow p-5 cursor-pointer hover:shadow-lg transition"
           >
             <h3 className="text-lg font-semibold text-gray-700 mb-3">Last Diagnosis</h3>
             <div className="text-gray-800 text-sm space-y-1">
-              <p>
-                <strong>Title:</strong> {lastDiagnosis.title}
-              </p>
-              <p>
-                <strong>Hospital:</strong> {lastDiagnosis.hospital}
-              </p>
-              <p>
-                <strong>Date:</strong>{" "}
-                {new Date(lastDiagnosis.created_at).toLocaleString()}
-              </p>
-              <p>
-                <strong>Description:</strong> {lastDiagnosis.description || "N/A"}
-              </p>
+              <p><strong>Title:</strong> {lastDiagnosis.title}</p>
+              <p><strong>Hospital:</strong> {lastDiagnosis.hospital}</p>
+              <p><strong>Date:</strong> {new Date(lastDiagnosis.created_at).toLocaleString()}</p>
+              <p><strong>Description:</strong> {lastDiagnosis.description || "N/A"}</p>
             </div>
           </div>
         )}

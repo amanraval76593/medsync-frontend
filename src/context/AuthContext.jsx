@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   // Fetch user data using access token
   const fetchUser = async (accessToken) => {
     try {
-      const res = await fetch("http://localhost:8000/api/user/me/", {
+      const res = await fetch("http://localhost:9000/api/user/me/", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -55,8 +55,8 @@ export const AuthProvider = ({ children }) => {
     };
     tryFetchUser();
   }, [authTokens]);
-  
-  
+
+
   return (
     <AuthContext.Provider value={{ authTokens, user, setUser, loginUser, logoutUser }}>
       {children}

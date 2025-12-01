@@ -26,12 +26,12 @@ const DoctorRegisterScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/api/register/doctor/", {
+      await axios.post("http://localhost:9000/api/register/doctor/", {
         ...formData,
         role: "DOCTOR",
       });
       alert("Doctor registered successfully!");
-      navigate("/login");
+      navigate("/login", { replace: true });
     } catch (err) {
       alert("Registration failed");
       console.error(err.response?.data || err.message);
